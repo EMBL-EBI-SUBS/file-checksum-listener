@@ -6,3 +6,6 @@ fileChecksum-listener:
     outLogDir: ${fileChecksum-listener.workingDir}/log/checksum_output.log
     profile: dev
     configLocation: spring-config-location
+spring:
+  main:
+    web-environment: false
