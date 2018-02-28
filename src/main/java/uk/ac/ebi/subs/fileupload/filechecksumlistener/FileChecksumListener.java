@@ -56,6 +56,9 @@ public class FileChecksumListener {
                 + memoryUsage
                 + appAndParameters;
 
+
+        LOGGER.info(
+                "Executing the following command on LSF: {}", commandForComputeMD5OnLSF);
         java.lang.Runtime rt = java.lang.Runtime.getRuntime();
         rt.exec(commandForComputeMD5OnLSF);
     }
