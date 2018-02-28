@@ -25,6 +25,9 @@ public class FileChecksumListener {
     @Value("${fileChecksum-listener.outLogDir}")
     private String outLogDir;
 
+    @Value("${fileChecksum-listener.appLogDir}")
+    private String appLogDir;
+
     @Value("${fileChecksum-listener.memoryUsage}")
     private String memoryUsage;
 
@@ -44,6 +47,7 @@ public class FileChecksumListener {
                 "Received file checksum generation message with TUS ID: {}", generatedTusId);
         StringJoiner sj = new StringJoiner(" ");
         sj.add(jobName).add(generatedTusId)
+                .add("-DLOG_HOME=" + appLogDir)
                 .add(profile)
                 .add(configLocation);
         String appAndParameters = sj.toString();
