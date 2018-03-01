@@ -1,0 +1,12 @@
+fileChecksum-listener:
+    workingDir: /home/filechecksum/
+    memoryUsage: " -M 200 -R \"rusage[mem=200]\" "
+    jobName: file-checksum-calculator.jar
+    errLogDir: ${fileChecksum-listener.workingDir}/log/checksum_error.log
+    outLogDir: ${fileChecksum-listener.workingDir}/log/checksum_output.log
+    appLogDir: /log
+    profile: dev
+    configLocation: spring-config-location
+spring:
+  main:
+    web-environment: false
