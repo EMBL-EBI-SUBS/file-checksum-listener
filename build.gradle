@@ -19,7 +19,7 @@ apply plugin: 'org.hidetake.ssh'
 apply plugin: 'maven-publish'
 
 group = 'uk.ac.ebi.subs'
-version = '0.1.4-SNAPSHOT'
+version = '0.2.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 mainClassName = "uk.ac.ebi.subs.fileupload.filechecksumlistener.FileChecksumListenerApplication"
@@ -106,10 +106,10 @@ private Object sshRun() {
             File jarDeployDir = jarDeployFile.getParentFile()
             println "Uploading jar $jar.archivePath.name to $jarDeployFile.absolutePath area on $remote"
             put(jar.archivePath.absolutePath, jarDeployFile.absolutePath)
-            println "creating symbolic link to $jar.archiveName"
-            def result = execute "ln -s -f $jarDeployFile.absolutePath $jarDeployDir/$jar.baseName" + ".jar", ignoreError: true
+            println "creating symbolic link to $jar.archiveName" + "_$env"
+            def result = execute "ln -s -f $jarDeployFile.absolutePath $jarDeployDir/$jar.baseName" + "_${env}.jar", ignoreError: true
             println result
-            println "updating permissions of $jarDeployDir/$jar.archiveName"
+            println "updating permissions of $jarDeployDir/$jar.archiveName" + "_$env"
             execute "chmod u+x $jarDeployDir/*", ignoreError: false
         }
     }
