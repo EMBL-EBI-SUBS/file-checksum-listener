@@ -55,7 +55,8 @@ public class FileContentValidationListener {
                 .append("--fileContentValidator.fileUUID=").append(fileContentValidationMessage.getFileUUID())
                 .append(" --fileContentValidator.filePath=").append(fileContentValidationMessage.getFilePath())
                 .append(" --fileContentValidator.fileType=").append(fileContentValidationMessage.getFileType())
-                .append(" --fileContentValidator.validationResultUUID=").append(fileContentValidationMessage.getValidationResultUUID());
+                .append(" --fileContentValidator.validationResultUUID=").append(fileContentValidationMessage.getValidationResultUUID())
+                .append(" --fileContentValidator.validationResultVersion=").append(fileContentValidationMessage.getValidationResultVersion());
 
         return commandLineParameters.toString();
     }
