@@ -1,2 +1,2 @@
-# file-checksum-listener
-An application listening on a RabbitMQ queue and execute task for calculating md5 checksum of a given file.
+# file-processing-listener
+An application listening on a RabbitMQ queue and execute task for file processing. It will calculate md5 checksum of the given file and will validate the content of the file.
