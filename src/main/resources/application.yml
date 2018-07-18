@@ -1,12 +1,21 @@
-fileChecksum-listener:
+fileProcessing-listener:
+  profile: dev
+  configLocation: spring-config-location
+  checksum-calculator:
     workingDir: /home/filechecksum/
     memoryUsage: " -M 200 -R \"rusage[mem=200]\" "
-    jobName: file-checksum-calculator.jar
-    errLogDir: ${fileChecksum-listener.workingDir}/log/checksum_error.log
-    outLogDir: ${fileChecksum-listener.workingDir}/log/checksum_output.log
-    appLogDir: /log
-    profile: dev
-    configLocation: spring-config-location
+    jobName: ${fileProcessing-listener.checksum-calculator.workingDir}/jar/file-checksum-calculator.jar
+    errLogDir: ${fileProcessing-listener.checksum-calculator.workingDir}/log/checksum_error.log
+    outLogDir: ${fileProcessing-listener.checksum-calculator.workingDir}/log/checksum_output.log
+    appLogDir: ${fileProcessing-listener.checksum-calculator.workingDir}/log
+  content-validator:
+    workingDir: /home/file-content-validator
+    memoryUsage: " -M 200 -R \"rusage[mem=200]\" "
+    jobName: ${fileProcessing-listener.content-validator.workingDir}/jar/file-content-validator.jar
+    appLogDir: ${fileProcessing-listener.content-validator.workingDir}/log
+    errLogDir: ${fileProcessing-listener.content-validator.workingDir}/log/file-content-validator_error.log
+    outLogDir: ${fileProcessing-listener.content-validator.workingDir}/log/file-content-validator_output.log
+
 spring:
   main:
     web-environment: false

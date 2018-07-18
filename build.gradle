@@ -19,10 +19,10 @@ apply plugin: 'org.hidetake.ssh'
 apply plugin: 'maven-publish'
 
 group = 'uk.ac.ebi.subs'
-version = '0.2.1-SNAPSHOT'
+version = '0.4.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
-mainClassName = "uk.ac.ebi.subs.fileupload.filechecksumlistener.FileChecksumListenerApplication"
+mainClassName = "uk.ac.ebi.subs.fileupload.fileprocessinglistener.FileProcessingListenerApplication"
 
 repositories {
 	mavenCentral()
@@ -30,6 +30,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly('org.projectlombok:lombok')
+
 	compile('org.springframework.boot:spring-boot-starter-amqp')
     compile('uk.ac.ebi.subs:subs-messaging:0.4.0-SNAPSHOT')
 
@@ -101,6 +103,7 @@ task testSsh(type: SshTask) {
 private Object sshRun() {
     ssh.run {
         session(remotes.role(gradle_env)) {
+            execute "/homes/sub_adm/create_dirs.sh $gradle_env $project.name", ignoreError: false
             def jarFileName = project.name + "-"  + project.version + "." + System.currentTimeMillis() + ".jar"
             File jarDeployFile = new File("/homes/sub_adm/apps/$env/$project.name/jar",jarFileName)
             File jarDeployDir = jarDeployFile.getParentFile()

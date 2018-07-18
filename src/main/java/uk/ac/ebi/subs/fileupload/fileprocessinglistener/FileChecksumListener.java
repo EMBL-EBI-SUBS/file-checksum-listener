@@ -1,11 +1,14 @@
-package uk.ac.ebi.subs.fileupload.filechecksumlistener;
+package uk.ac.ebi.subs.fileupload.fileprocessinglistener;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import uk.ac.ebi.subs.fileupload.filechecksumlistener.messaging.ChecksumListenerMessagingConfiguration;
+import uk.ac.ebi.subs.fileupload.fileprocessinglistener.config.FileCheckSumCalculatorConfig;
+import uk.ac.ebi.subs.fileupload.fileprocessinglistener.messaging.FileProcessingListenerMessagingConfiguration;
+import uk.ac.ebi.subs.fileupload.fileprocessinglistener.messaging.message.ChecksumGenerationMessage;
 
 import java.io.IOException;
 import java.util.StringJoiner;
@@ -15,45 +18,29 @@ import java.util.StringJoiner;
  * and executing a checksum calculator task using the sent file ID from the message as the task's parameter.
  */
 @Service
+@RequiredArgsConstructor
 public class FileChecksumListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileChecksumListener.class);
 
-    @Value("${fileChecksum-listener.errLogDir}")
-    private String errLogDir;
+    @NonNull
+    private FileCheckSumCalculatorConfig fileCheckSumCalculatorConfig;
 
-    @Value("${fileChecksum-listener.outLogDir}")
-    private String outLogDir;
-
-    @Value("${fileChecksum-listener.appLogDir}")
-    private String appLogDir;
-
-    @Value("${fileChecksum-listener.memoryUsage}")
-    private String memoryUsage;
-
-    @Value("${fileChecksum-listener.jobName}")
-    private String jobName;
-
-    @Value("${fileChecksum-listener.profile}")
-    private String profile;
-
-    @Value("${fileChecksum-listener.configLocation}")
-    private String configLocation;
-
-    @RabbitListener(queues = ChecksumListenerMessagingConfiguration.FILE_CHECKSUM_GENERATION)
+    @RabbitListener(queues = FileProcessingListenerMessagingConfiguration.FILE_CHECKSUM_GENERATION)
     public void handleChecksumGenerationRequest(ChecksumGenerationMessage checksumGenerationMessage) throws IOException {
         final String generatedTusId = checksumGenerationMessage.getGeneratedTusId();
         LOGGER.info(
                 "Received file checksum generation message with TUS ID: {}", generatedTusId);
         StringJoiner sj = new StringJoiner(" ");
-        sj.add(jobName).add(generatedTusId)
-                .add("-DLOG_HOME=" + appLogDir)
-                .add(profile)
-                .add(configLocation);
+        sj.add(fileCheckSumCalculatorConfig.getJobName()).add(generatedTusId)
+                .add("-DLOG_HOME=" + fileCheckSumCalculatorConfig.getAppLogDir())
+                .add(fileCheckSumCalculatorConfig.getProfile())
+                .add(fileCheckSumCalculatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();
 
-        String commandForComputeMD5OnLSF = "bsub -e " + errLogDir + " -o " + outLogDir
-                + memoryUsage
+        String commandForComputeMD5OnLSF = "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
+                + " -o " + fileCheckSumCalculatorConfig.getOutLogDir()
+                + fileCheckSumCalculatorConfig.getMemoryUsage()
                 + appAndParameters;
 
 
