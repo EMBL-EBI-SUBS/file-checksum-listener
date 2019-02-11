@@ -34,6 +34,8 @@ public class FileChecksumListener {
         StringJoiner sj = new StringJoiner(" ");
         sj.add(fileCheckSumCalculatorConfig.getJobName()).add(generatedTusId)
                 .add("-DLOG_HOME=" + fileCheckSumCalculatorConfig.getAppLogDir())
+                .add("-DGRAYLOG_HOST=" + fileCheckSumCalculatorConfig.getGraylogHost())
+                .add("-DGRAYLOG_PORT=" + fileCheckSumCalculatorConfig.getGraylogPort())
                 .add(fileCheckSumCalculatorConfig.getProfile())
                 .add(fileCheckSumCalculatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();

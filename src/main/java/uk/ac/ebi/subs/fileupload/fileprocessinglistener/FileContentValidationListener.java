@@ -34,6 +34,8 @@ public class FileContentValidationListener {
         sj.add(fileContentValidatorConfig.getJobName())
                 .add(assembleCommandLineParameters(fileContentValidationMessage))
                 .add("-DLOG_HOME=" + fileContentValidatorConfig.getAppLogDir())
+                .add("-DGRAYLOG_HOST=" + fileContentValidatorConfig.getGraylogHost())
+                .add("-DGRAYLOG_PORT=" + fileContentValidatorConfig.getGraylogPort())
                 .add(fileContentValidatorConfig.getProfile())
                 .add(fileContentValidatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();
