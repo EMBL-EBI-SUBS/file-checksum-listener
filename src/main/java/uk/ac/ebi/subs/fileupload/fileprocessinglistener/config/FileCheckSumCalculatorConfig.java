@@ -28,4 +28,12 @@ public class FileCheckSumCalculatorConfig {
 
     @Value("${fileProcessing-listener.configLocation}")
     private String configLocation;
+
+    //Graylog config
+    @Value("#{environment.GRAYLOG_HOST}")
+    private String graylogHost;
+
+    @Value("#{environment.GRAYLOG_PORT}")
+    private String graylogPort;
+
 }
