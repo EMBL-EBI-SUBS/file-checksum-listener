@@ -36,4 +36,5 @@ public class FileCheckSumCalculatorConfig {
     @Value("#{environment.GRAYLOG_PORT}")
     private String graylogPort;
 
+    private String appName = "file-checksum-calculator";
 }
