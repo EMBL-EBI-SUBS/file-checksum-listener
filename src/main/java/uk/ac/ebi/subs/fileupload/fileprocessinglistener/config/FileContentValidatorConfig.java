@@ -35,4 +35,6 @@ public class FileContentValidatorConfig {
 
     @Value("#{environment.GRAYLOG_PORT}")
     private String graylogPort;
+
+    private String appName = "file-content-validator";
 }

@@ -36,6 +36,7 @@ public class FileContentValidationListener {
                 .add("-DLOG_HOME=" + fileContentValidatorConfig.getAppLogDir())
                 .add("-DGRAYLOG_HOST=" + fileContentValidatorConfig.getGraylogHost())
                 .add("-DGRAYLOG_PORT=" + fileContentValidatorConfig.getGraylogPort())
+                .add("-DSPRING_APP=" + fileContentValidatorConfig.getAppName())
                 .add(fileContentValidatorConfig.getProfile())
                 .add(fileContentValidatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();
