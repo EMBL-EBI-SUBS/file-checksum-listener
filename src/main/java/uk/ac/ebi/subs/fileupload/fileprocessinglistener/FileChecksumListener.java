@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import uk.ac.ebi.subs.fileupload.fileprocessinglistener.config.EnvParamsBuilder;
 import uk.ac.ebi.subs.fileupload.fileprocessinglistener.config.FileCheckSumCalculatorConfig;
 import uk.ac.ebi.subs.fileupload.fileprocessinglistener.messaging.FileProcessingListenerMessagingConfiguration;
 import uk.ac.ebi.subs.fileupload.fileprocessinglistener.messaging.message.ChecksumGenerationMessage;
@@ -33,17 +34,23 @@ public class FileChecksumListener {
                 "Received file checksum generation message with TUS ID: {}", generatedTusId);
         StringJoiner sj = new StringJoiner(" ");
         sj.add(fileCheckSumCalculatorConfig.getJobName()).add(generatedTusId)
-                .add("-DLOG_HOME=" + fileCheckSumCalculatorConfig.getAppLogDir())
-                .add("-DGRAYLOG_HOST=" + fileCheckSumCalculatorConfig.getGraylogHost())
-                .add("-DGRAYLOG_PORT=" + fileCheckSumCalculatorConfig.getGraylogPort())
-                .add("-DSPRING_APP=" + fileCheckSumCalculatorConfig.getAppName())
-                .add(fileCheckSumCalculatorConfig.getProfile())
+                .add("--spring.profiles.active=" + fileCheckSumCalculatorConfig.getProfile())
                 .add(fileCheckSumCalculatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();
+
+        String envExportCommands = EnvParamsBuilder.builder()
+                .logHome(fileCheckSumCalculatorConfig.getAppLogDir())
+                .grayLogHost(fileCheckSumCalculatorConfig.getGraylogHost())
+                .grayLogPort(fileCheckSumCalculatorConfig.getGraylogPort())
+                .appName(fileCheckSumCalculatorConfig.getAppName())
+                .profile(fileCheckSumCalculatorConfig.getProfile())
+                .build()
+                .buildEnvExportCommand();
 
         String commandForComputeMD5OnLSF = "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
                 + " -o " + fileCheckSumCalculatorConfig.getOutLogDir()
                 + fileCheckSumCalculatorConfig.getMemoryUsage()
+                + envExportCommands
                 + appAndParameters;
 
 
