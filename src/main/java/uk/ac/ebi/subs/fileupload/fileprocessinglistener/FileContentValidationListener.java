@@ -51,13 +51,13 @@ public class FileContentValidationListener {
     }
 
     private String assembleCommandLineParameters(FileContentValidationMessage fileContentValidationMessage) {
-        StringBuilder commandLineParameters = new StringBuilder();
+        StringJoiner commandLineParameters = new StringJoiner(" ");
         commandLineParameters
-                .append(fileContentValidationMessage.getFileUUID())
-                .append(fileContentValidationMessage.getFilePath())
-                .append(fileContentValidationMessage.getFileType())
-                .append(fileContentValidationMessage.getValidationResultUUID())
-                .append(fileContentValidationMessage.getValidationResultVersion());
+                .add(fileContentValidationMessage.getFileUUID())
+                .add(fileContentValidationMessage.getFilePath())
+                .add(fileContentValidationMessage.getFileType())
+                .add(fileContentValidationMessage.getValidationResultUUID())
+                .add(fileContentValidationMessage.getValidationResultVersion());
 
         return commandLineParameters.toString();
     }
