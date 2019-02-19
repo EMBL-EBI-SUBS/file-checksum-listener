@@ -14,13 +14,13 @@ public class EnvParamsBuilder {
     private String profile;
 
     public String buildEnvExportCommand() {
-        StringJoiner exportCommands = new StringJoiner("; ");
-        exportCommands.add("export LOG_HOME=" + logHome);
-        exportCommands.add("export GRAYLOG_HOST=" + grayLogHost);
-        exportCommands.add("export GRAYLOG_PORT=" + grayLogPort);
-        exportCommands.add("export SPRING_APP=" + appName);
-        exportCommands.add("export SPRING_PROFILE=" + profile);
+        StringJoiner exportCommands = new StringJoiner(" ");
+        exportCommands.add("LOG_HOME=" + logHome);
+        exportCommands.add("GRAYLOG_HOST=" + grayLogHost);
+        exportCommands.add("GRAYLOG_PORT=" + grayLogPort);
+        exportCommands.add("SPRING_APP=" + appName);
+        exportCommands.add("SPRING_PROFILE=" + profile);
 
-        return exportCommands.toString() + "; ";
+        return exportCommands.toString();
     }
 }

@@ -47,10 +47,11 @@ public class FileContentValidationListener {
                 .add(fileContentValidatorConfig.getConfigLocation());
         String appAndParameters = sj.toString();
 
-        String commandForValidateFileContent = envExportCommands
-                + "bsub -e " + fileContentValidatorConfig.getErrLogDir()
+        String commandForValidateFileContent =
+                "bsub -e " + fileContentValidatorConfig.getErrLogDir()
                 + " -o " + fileContentValidatorConfig.getOutLogDir()
                 + fileContentValidatorConfig.getMemoryUsage()
+                + " -env \"" + envExportCommands + "\" "
                 + appAndParameters;
 
         LOGGER.info(
