@@ -19,7 +19,7 @@ apply plugin: 'org.hidetake.ssh'
 apply plugin: 'maven-publish'
 
 group = 'uk.ac.ebi.subs'
-version = '0.4.4-SNAPSHOT'
+version = '0.4.5-SNAPSHOT'
 sourceCompatibility = 1.8
 
 mainClassName = "uk.ac.ebi.subs.fileupload.fileprocessinglistener.FileProcessingListenerApplication"

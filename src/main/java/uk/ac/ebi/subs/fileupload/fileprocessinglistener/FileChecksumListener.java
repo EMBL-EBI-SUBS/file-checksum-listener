@@ -47,10 +47,10 @@ public class FileChecksumListener {
                 .build()
                 .buildEnvExportCommand();
 
-        String commandForComputeMD5OnLSF = "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
+        String commandForComputeMD5OnLSF = envExportCommands
+                + "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
                 + " -o " + fileCheckSumCalculatorConfig.getOutLogDir()
                 + fileCheckSumCalculatorConfig.getMemoryUsage()
-                + envExportCommands
                 + appAndParameters;
 
 
