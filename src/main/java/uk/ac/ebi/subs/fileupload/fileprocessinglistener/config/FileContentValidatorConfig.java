@@ -23,7 +23,7 @@ public class FileContentValidatorConfig {
     @Value("${fileProcessing-listener.content-validator.jobName}")
     private String jobName;
 
-    @Value("${fileProcessing-listener.profile}")
+    @Value("#{environment.SPRING_PROFILE")
     private String profile;
 
     @Value("${fileProcessing-listener.configLocation}")
