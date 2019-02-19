@@ -23,7 +23,7 @@ public class FileCheckSumCalculatorConfig {
     @Value("${fileProcessing-listener.checksum-calculator.jobName}")
     private String jobName;
 
-    @Value("#{environment.SPRING_PROFILE")
+    @Value("#{environment.SPRING_PROFILE}")
     private String profile;
 
     @Value("${fileProcessing-listener.configLocation}")
