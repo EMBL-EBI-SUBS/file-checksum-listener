@@ -23,18 +23,6 @@ public class FileContentValidatorConfig {
     @Value("${fileProcessing-listener.content-validator.jobName}")
     private String jobName;
 
-    @Value("${fileProcessing-listener.profile}")
+    @Value("#{environment.SPRING_PROFILE}")
     private String profile;
-
-    @Value("${fileProcessing-listener.configLocation}")
-    private String configLocation;
-
-    //Graylog config
-    @Value("#{environment.GRAYLOG_HOST}")
-    private String graylogHost;
-
-    @Value("#{environment.GRAYLOG_PORT}")
-    private String graylogPort;
-
-    private String appName = "file-content-validator";
 }

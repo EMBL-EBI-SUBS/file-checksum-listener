@@ -29,26 +29,24 @@ public class FileChecksumListener {
     @RabbitListener(queues = FileProcessingListenerMessagingConfiguration.FILE_CHECKSUM_GENERATION)
     public void handleChecksumGenerationRequest(ChecksumGenerationMessage checksumGenerationMessage) throws IOException {
         final String generatedTusId = checksumGenerationMessage.getGeneratedTusId();
+
         LOGGER.info(
                 "Received file checksum generation message with TUS ID: {}", generatedTusId);
+
         StringJoiner sj = new StringJoiner(" ");
         sj.add(fileCheckSumCalculatorConfig.getJobName()).add(generatedTusId)
-                .add("-DLOG_HOME=" + fileCheckSumCalculatorConfig.getAppLogDir())
-                .add("-DGRAYLOG_HOST=" + fileCheckSumCalculatorConfig.getGraylogHost())
-                .add("-DGRAYLOG_PORT=" + fileCheckSumCalculatorConfig.getGraylogPort())
-                .add("-DSPRING_APP=" + fileCheckSumCalculatorConfig.getAppName())
-                .add(fileCheckSumCalculatorConfig.getProfile())
-                .add(fileCheckSumCalculatorConfig.getConfigLocation());
+                .add(fileCheckSumCalculatorConfig.getProfile());
         String appAndParameters = sj.toString();
 
-        String commandForComputeMD5OnLSF = "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
+        String commandForComputeMD5OnLSF =
+                "bsub -e " + fileCheckSumCalculatorConfig.getErrLogDir()
                 + " -o " + fileCheckSumCalculatorConfig.getOutLogDir()
                 + fileCheckSumCalculatorConfig.getMemoryUsage()
                 + appAndParameters;
 
-
         LOGGER.info(
                 "Executing the following command on LSF: {}", commandForComputeMD5OnLSF);
+
         java.lang.Runtime rt = java.lang.Runtime.getRuntime();
         rt.exec(commandForComputeMD5OnLSF);
     }

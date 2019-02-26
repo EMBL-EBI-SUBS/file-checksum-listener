@@ -30,36 +30,34 @@ public class FileContentValidationListener {
     public void handleFileContentValidationRequest(FileContentValidationMessage fileContentValidationMessage) throws IOException {
         LOGGER.info(
                 "Received file content validation message with file: {}", fileContentValidationMessage.getFilePath());
+
         StringJoiner sj = new StringJoiner(" ");
         sj.add(fileContentValidatorConfig.getJobName())
                 .add(assembleCommandLineParameters(fileContentValidationMessage))
-                .add("-DLOG_HOME=" + fileContentValidatorConfig.getAppLogDir())
-                .add("-DGRAYLOG_HOST=" + fileContentValidatorConfig.getGraylogHost())
-                .add("-DGRAYLOG_PORT=" + fileContentValidatorConfig.getGraylogPort())
-                .add("-DSPRING_APP=" + fileContentValidatorConfig.getAppName())
-                .add(fileContentValidatorConfig.getProfile())
-                .add(fileContentValidatorConfig.getConfigLocation());
+                .add(fileContentValidatorConfig.getProfile());
         String appAndParameters = sj.toString();
 
-        String commandForValidateFileContent = "bsub -e " + fileContentValidatorConfig.getErrLogDir()
+        String commandForValidateFileContent =
+                "bsub -e " + fileContentValidatorConfig.getErrLogDir()
                 + " -o " + fileContentValidatorConfig.getOutLogDir()
                 + fileContentValidatorConfig.getMemoryUsage()
                 + appAndParameters;
 
         LOGGER.info(
                 "Executing the following command on LSF: {}", commandForValidateFileContent);
+
         Runtime rt = Runtime.getRuntime();
         rt.exec(commandForValidateFileContent);
     }
 
     private String assembleCommandLineParameters(FileContentValidationMessage fileContentValidationMessage) {
-        StringBuilder commandLineParameters = new StringBuilder();
+        StringJoiner commandLineParameters = new StringJoiner(" ");
         commandLineParameters
-                .append("--fileContentValidator.fileUUID=").append(fileContentValidationMessage.getFileUUID())
-                .append(" --fileContentValidator.filePath=").append(fileContentValidationMessage.getFilePath())
-                .append(" --fileContentValidator.fileType=").append(fileContentValidationMessage.getFileType())
-                .append(" --fileContentValidator.validationResultUUID=").append(fileContentValidationMessage.getValidationResultUUID())
-                .append(" --fileContentValidator.validationResultVersion=").append(fileContentValidationMessage.getValidationResultVersion());
+                .add(fileContentValidationMessage.getFileUUID())
+                .add(fileContentValidationMessage.getFilePath())
+                .add(fileContentValidationMessage.getFileType())
+                .add(fileContentValidationMessage.getValidationResultUUID())
+                .add(fileContentValidationMessage.getValidationResultVersion());
 
         return commandLineParameters.toString();
     }
