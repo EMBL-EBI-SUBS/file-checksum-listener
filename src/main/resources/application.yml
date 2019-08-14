@@ -15,7 +15,3 @@ fileProcessing-listener:
     appLogDir: ${fileProcessing-listener.content-validator.workingDir}/log
     errLogDir: ${fileProcessing-listener.content-validator.workingDir}/log/file-content-validator_error.log
     outLogDir: ${fileProcessing-listener.content-validator.workingDir}/log/file-content-validator_output.log
-
-spring:
-  main:
-    web-environment: false
