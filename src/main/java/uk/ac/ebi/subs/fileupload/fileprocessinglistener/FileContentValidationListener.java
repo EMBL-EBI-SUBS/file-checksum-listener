@@ -57,7 +57,8 @@ public class FileContentValidationListener {
                 .add(fileContentValidationMessage.getFilePath())
                 .add(fileContentValidationMessage.getFileType())
                 .add(fileContentValidationMessage.getValidationResultUUID())
-                .add(fileContentValidationMessage.getValidationResultVersion());
+                .add(fileContentValidationMessage.getValidationResultVersion())
+                .add(fileContentValidationMessage.getSubmissionUUID());
 
         return commandLineParameters.toString();
     }
