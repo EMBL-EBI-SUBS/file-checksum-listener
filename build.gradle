@@ -19,7 +19,7 @@ apply plugin: 'org.hidetake.ssh'
 apply plugin: 'maven-publish'
 
 group = 'uk.ac.ebi.subs'
-version = '0.4.9'
+version = '0.5.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 mainClassName = "uk.ac.ebi.subs.fileupload.fileprocessinglistener.FileProcessingListenerApplication"
@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly('org.projectlombok:lombok')
+    compileOnly('org.projectlombok:lombok:1.18.10')
 
 	compile('org.springframework.boot:spring-boot-starter-amqp')
     compile 'de.codecentric:spring-boot-admin-starter-client:1.5.7'
@@ -38,6 +38,8 @@ dependencies {
     compile('uk.ac.ebi.subs:subs-messaging:0.4.0-SNAPSHOT')
 
     compile("de.siegmar:logback-gelf:1.1.0")
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
